@@ -1,6 +1,7 @@
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class PuzzleState {
@@ -18,19 +19,55 @@ public class PuzzleState {
 	
 	private String moveList = "";
 	
-	public PuzzleState(int size) {
-		this.size = size;
-		this.matrix = new int[size][size];
+	private PuzzleState(int size, int[][] matrix) {
+		initialize(size, matrix);
 	}
 	
-	public static PuzzleState duplicate(PuzzleState src) {
+	public PuzzleState(int size) {
+		initialize(size, new int[size][size]);
+	}
+	
+	private void initialize(int size, int[][] matrix) {
+		this.size = size;
+		this.matrix = matrix;
+	}
+	
+	public boolean checkAndRefresh() {
+		HashSet<Integer> lookup = new HashSet<Integer>();
+		for (int i=0; i<size; i++)
+			for (int j=0; j<size; j++) {
+				if (!lookup.add(matrix[i][j]))
+					return false;
+				if (matrix[i][j] < 0 || matrix[i][j] >= size*size)
+					return false;
+				if (matrix[i][j] == emptyInt) {
+					emptyIndex = new Point(j, i);
+				}
+				
+			}
+		return true;
+	}
+	
+	public static PuzzleState from(int[][] matrix) {
+		if (matrix.length == 0 || matrix.length != matrix[0].length) return null; // Simple check
+		PuzzleState state = new PuzzleState(matrix.length, matrix);
+		if (state.checkAndRefresh())
+			return state;
+		return null;
+	}
+	
+	public static PuzzleState copy(PuzzleState src) {
+		PuzzleState state = clone(src);
+		state.moveList = src.getMoveList();
+		return state;	
+	}
+	
+	public static PuzzleState clone(PuzzleState src) {
 		PuzzleState state = new PuzzleState(src.size);
 		state.matrix = new int[src.size][];
 		for (int i=0; i<src.size; i++)
 			state.matrix[i] = src.matrix[i].clone();
 		state.emptyIndex = (Point) src.emptyIndex.clone();
-		state.moveList = src.getMoves();
-		
 		return state;	
 	}
 	
@@ -55,6 +92,10 @@ public class PuzzleState {
 		return x >= 0 && x < size && y >= 0 && y < size;
 	}
 	
+	public int getPuzzleType() {
+		return size*size-1;
+	}
+	
 	public Point getOriginalIndex(int fromIndex) {
 		if (fromIndex < 0 || fromIndex > size*size-1) return null;
 		if (fromIndex == emptyInt) return new Point(size-1, size-1);
@@ -77,7 +118,7 @@ public class PuzzleState {
 		if (!checkPoint(getX, getY))
 			return null;
 		
-		PuzzleState newState = PuzzleState.duplicate(this);
+		PuzzleState newState = PuzzleState.copy(this);
 		
 		newState.matrix[emptyIndex.y][emptyIndex.x] = newState.matrix[getY][getX];
 		newState.matrix[getY][getX] = emptyInt;
@@ -96,41 +137,45 @@ public class PuzzleState {
 		return serial;
 	}
 	
-	public PuzzleState getLeftSwap() {
+	public PuzzleState getLeftMoveState() {
 		PuzzleState state = getSwap(-1,0);
-		state.moveList += LMove;
+		if (state != null) 
+			state.moveList += LMove;
 		return state;
 	}
 	
-	public PuzzleState getRightSwap() {
+	public PuzzleState getRightMoveState() {
 		PuzzleState state = getSwap(1,0);
-		state.moveList += RMove;
+		if (state != null) 
+			state.moveList += RMove;
 		return state;
 	}
 	
-	public PuzzleState getTopSwap() {
+	public PuzzleState getTopMoveState() {
 		PuzzleState state = getSwap(0,-1);
-		state.moveList += TMove;
+		if (state != null) 
+			state.moveList += TMove;
 		return state;
 	}
 	
-	public PuzzleState getBottomSwap() {
+	public PuzzleState getBottomMoveState() {
 		PuzzleState state = getSwap(0,1);
-		state.moveList += BMove;
+		if (state != null) 
+			state.moveList += BMove;
 		return state;
 	}
 	
-	public String getMoves() {
+	public String getMoveList() {
 		return moveList+"";
 	}
 	
-	public List<PuzzleState> getSwaps() {
+	public List<PuzzleState> getAllMoveStates() {
 		List<PuzzleState> list = new ArrayList<PuzzleState>();
 		
-		PuzzleState left = getLeftSwap();
-		PuzzleState right = getRightSwap();
-		PuzzleState top = getTopSwap();
-		PuzzleState bottom = getBottomSwap();
+		PuzzleState left = getLeftMoveState();
+		PuzzleState right = getRightMoveState();
+		PuzzleState top = getTopMoveState();
+		PuzzleState bottom = getBottomMoveState();
 		
 		
 		if (left != null) list.add(left);
@@ -148,5 +193,8 @@ public class PuzzleState {
 		return build;
 	}
 	
+	public boolean isEqual(PuzzleState state) {
+		return this.getSerial().equals(state.getSerial());
+	}
 	
 }
