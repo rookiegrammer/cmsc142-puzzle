@@ -24,6 +24,10 @@ public class BNBPuzzleN {
 		public int compareTo(PSWrapper o) {
 			return this.cost - o.cost;
 		}
+		
+		public String toString() {
+			return cost+"";
+		}
 	}
 	
 	public static PNResults findMoves(PuzzleState origin) {
@@ -42,7 +46,8 @@ public class BNBPuzzleN {
 		queue.add(select);
 		
 		while (!queue.isEmpty()) {
-			select = removeBest(queue);
+			select = removeLastBest(queue);
+			// System.out.println("COST: "+select.cost);
 			nodeChecks++;
 			
 			String sSerial = select.state.getSerial();
@@ -59,7 +64,8 @@ public class BNBPuzzleN {
 			}
 			
 			// Set Lookup Here to avoid rechecking old nodes
-			queue.addAll(getChildren(select, lookup));
+			List<PSWrapper> children = getChildren(select, lookup);
+			queue.addAll(children);
 		}
 		
 		return new PNResults(maxDepth, nodeChecks, "NaN");
@@ -74,7 +80,7 @@ public class BNBPuzzleN {
 		return children;
 	}
 	
-	private static PSWrapper removeBest(List<PSWrapper> list) {
+	private static PSWrapper removeLastBest(List<PSWrapper> list) {
 		Iterator<PSWrapper> iterator = list.iterator();
 		if (!iterator.hasNext()) return null;
 		int i = 0;
@@ -83,7 +89,7 @@ public class BNBPuzzleN {
 		while (iterator.hasNext()) {
 			PSWrapper next = iterator.next();
 			i++;
-			if (max.compareTo(next) > 0) {
+			if (max.compareTo(next) >= 0) {
 				max = next;
 				maxI = i;
 			}

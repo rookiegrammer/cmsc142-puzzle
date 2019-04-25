@@ -14,8 +14,8 @@ public class PuzzleState {
 	
 	final static char LMove = 'L';
 	final static char RMove = 'R';
-	final static char TMove = 'T';
-	final static char BMove = 'B';
+	final static char TMove = 'U';
+	final static char BMove = 'D';
 	
 	private String moveList = "";
 	

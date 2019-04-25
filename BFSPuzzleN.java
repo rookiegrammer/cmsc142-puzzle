@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -8,7 +8,7 @@ public class BFSPuzzleN {
 		
 		String serial = PuzzleState.defaultState(origin.getSize()).getSerial();
 		PuzzleState select = PuzzleState.clone(origin);
-		HashMap<String, PuzzleState> lookup = new HashMap<String, PuzzleState>();
+		HashSet<String> lookup = new HashSet<String>();
 		Queue<PuzzleState> queue = new LinkedList<PuzzleState>();
 		
 		int depth = 0;
@@ -22,11 +22,9 @@ public class BFSPuzzleN {
 			select = queue.poll();
 			
 			String sSerial = select.getSerial();
-			PuzzleState check = lookup.get(sSerial);
 			
-			if (check == null) {
-				lookup.put(sSerial, select);
-			} else continue;
+			if (!lookup.add(sSerial)) 
+				continue;
 			
 			nodeChecks++;
 			
