@@ -56,6 +56,18 @@ public class PuzzleState {
 		return null;
 	}
 	
+	public static PuzzleState from(int[] list) {
+		int size = (int) Math.sqrt(list.length);
+		if (Math.pow(size, 2) != list.length) return null;
+		int[][] matrix = new int[size][size];
+		int k = 0;
+		for (int i=0; i<size; i++) 
+			for (int j=0; j<size; j++) {
+				matrix[i][j] = list[k++];
+			}
+		return from(matrix);
+	}
+	
 	public static PuzzleState copy(PuzzleState src) {
 		PuzzleState state = clone(src);
 		state.moveList = src.getMoveList();
@@ -132,7 +144,7 @@ public class PuzzleState {
 		String serial = size+"S";
 		for (int i=0; i<size; i++)
 			for (int j=0; j<size; j++) {
-				serial += matrix[i][j];
+				serial += matrix[i][j]+",";
 			}
 		return serial;
 	}
