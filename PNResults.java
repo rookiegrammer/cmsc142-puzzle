@@ -3,6 +3,8 @@ public class PNResults {
 	int maxDepth;
 	int nodeChecks;
 	String moveList;
+	long duration = 0;
+	PuzzleState puzzle = null;
 	
 	public PNResults() {
 	}

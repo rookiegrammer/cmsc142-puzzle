@@ -47,7 +47,6 @@ public class BNBPuzzleN {
 		
 		while (!queue.isEmpty()) {
 			select = removeLastBest(queue);
-			// System.out.println("COST: "+select.cost);
 			nodeChecks++;
 			
 			String sSerial = select.state.getSerial();
@@ -56,14 +55,12 @@ public class BNBPuzzleN {
 			if (depth != moves) {
 				depth = moves;
 				maxDepth = depth > maxDepth ? depth : maxDepth;
-				// System.out.println("Depth: "+depth); // Reply Depth
 			}
 			
 			if (serial.equals(sSerial)) {
 				return new PNResults(maxDepth, nodeChecks, select.state.getMoveList());
 			}
 			
-			// Set Lookup Here to avoid rechecking old nodes
 			List<PSWrapper> children = getChildren(select, lookup);
 			queue.addAll(children);
 		}

@@ -141,10 +141,10 @@ public class PuzzleState {
 	}
 	
 	public String getSerial() {
-		String serial = size+"S";
+		String serial = size+"S: ";
 		for (int i=0; i<size; i++)
 			for (int j=0; j<size; j++) {
-				serial += matrix[i][j]+",";
+				serial += (i==0 && j==0 ? "" : " ") + matrix[i][j];
 			}
 		return serial;
 	}
