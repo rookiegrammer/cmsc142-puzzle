@@ -10,26 +10,63 @@
 
 \subsection{Graph Searching Algorithms: Breadth First Search}
 
-\par One of the very basic and easily implementable solution of the N-Puzzle Problem is the Breadth First Search (BFS). A BFS is done by checking every node by each level of node depth. Since the search starts from a specific node, node depth describes the number of edges that are required to reach a another node from that specific node. This only means that BFS checks the nodes with the least amount of edges traversed from the specific starting node (or the "nearest" nodes) first before checking other nodes.
+\par One of the very basic and easily implementable solution of the N-Puzzle Problem is the Breadth First Search (BFS). A BFS is done by checking every node by each level of node depth. Since the search starts from a specific node, node depth describes the number of edges that are required to reach a another node from that specific node. This only means that BFS checks the nodes with the least amount of edges traversed from the specific starting node (or the "nearest" nodes) first before checking other nodes.\cite{bfs}
 
 \par This can computationally done by queueing nodes by their level of node depth. A basic implementation of BFS is:
-
-1. Label the tree node or starting node as the current node.
-2. Create a queue that would contain nodes to be checked.
-3. Check if the current node is the node being searched for.
-  a. If it is, skip to step 7.
-  b. If it isn't, continue to step 4.
-4. Get all the possible children nodes or nodes that can be traversed by an edge from the current node.
-5. Add all the nodes from the previous step to the end of the queue.
-6. Remove the node from the start of the queue, set this node as the current node and go back to step 3.
-7. Collect the edges that in-order traverses the starting node to the node being searched for.
+\begin{enumerate}
+\item Label the tree node or starting node as the current node.
+\item Create a queue that would contain nodes to be checked.
+\item Check if the current node is the node being searched for.
+  \begin{itemize}
+  \item If it is, skip to step 7.
+  \item If it isn't, continue to step 4.
+  \end{itemize}
+\item Get all the possible children nodes or nodes that can be traversed by an edge from the current node.
+\item Add all the nodes from the previous step to the end of the queue.
+\item Remove the node from the start of the queue, set this node as the current node and go back to step 3.
+\item Collect the edges that in-order traverses the starting node to the node being searched for.
+\end{enumerate}
 
 \par Step 7 in the implementation can be easily done by alternatively storing the edges that have been traversed to reach the node (in step 4) inside that same node and then accessing that information in step 7 also.
 
 \par It is also important to note that some graphs have node cycles such that blindly traversing nodes can make the traversal to loop back to a previously checked node (which can also cause infinite loops). One example of such graph is from the N-Puzzle Problem since each arrangement can be redone using a few number of moves and one of these few number of moves is by simply doing a set moves on an arrangement and then reversing those moves such that the left move reverses right move v.v. and up move reverses down move v.v.
 
-\par Preventing looping checks described previously is also important to not waste compute power on traversing from a previously searched node for its children and "grand"-children which are also assumed to be already checked. The best way to mitigate this is by allowing the nodes to be serialized uniquely by how each node can be distinguished from each other (note: this can't be traversed edge information) and each checked serial should be included in a hash set (fast set similar to a hash map which stores a unique item only once). For the N-Puzzle Problem this should be the original positions of each tile in order of how they are currently arranged spaced out by a separator. This serialization method also can be used to identify the node being searched for in step 3.
+\par Preventing looping checks described previously is also important to not waste compute power on traversing from a previously searched node for its children and "grand"-children which are also assumed to be already checked. The best way to mitigate this is by allowing the nodes to be serialized uniquely by how each node can be distinguished from each other (note: this can't be traversed edge information) and each checked serial should be included in a hash set (fast set similar to a hash map which stores a unique item only once). For the N-Puzzle Problem this should be the original positions of each tile in order of how they are currently arranged spaced out by a separator. This serialization method also can be used to identify the node being searched for in step 3.\cite{hsh}
 
 \par For solving the N-Puzzle Problem, the implementation of BFS should allow: nodes to be serialized, node's children be identified and instantiated, edge traversal information be recorded in nodes and a hash set to be utilized for containing information of nodes already checked. These requirements are already described in the previous paragraphs.
 
-\subsection{Graph Searching Algorithms: Branch and Bound}
+\subsection{Graph Searching Algorithms: Branch and Bound using Manhattan Distances}
+
+\par Branch and Bound (BnB) is a step up from the BFS Graph Searching Algorithm. This is because it identifies the best node to branch out at a certain time. Every node is ranked for their potential of reaching the solution in just a few traversals. Unlike BFS, BnB uses a cost function that allows it to evaluate every node available for traversal and find the current best node to branch out.\cite{bnb}
+
+\par Implementing BnB to find a solution for N-Puzzle will require a cost function. A cost function needs to be clear and should evaluate a node without relying on contextual data such as surrounding nodes to be fast. It should determine the best node using information that the node only provides. Such information for solving N-Puzzle would use move set length and tile arrangement.
+
+\par The Manhattan Distance (Taxicab Geometry) is the sum of the absolute differences between the cartesian coordinates of two vectors. Unlike Euclidean distance being the shortest unique path between two vectors, Manhattan distance's shortest path is not unique and can be measured diagonally by alternating measurements of 1 unit between each coordinate from one vector to reach the other vector. \cite{mnh}
+
+\par For the implementation of the N-Puzzle solution using BnB, the sum of the Manhattan Distances of each tile from its original position in the arrangement is used. The cost function for such implementation\cite{bnb}\cite{heur} is:
+
+\begin{align*}
+\text{Cost of Puzzle Arrangement Node (state)} s &= f(s) \\
+&= \text{NodeMoveListLength}(s) \\
+&+ \text{SumOfTilesManhattanDistances}(s)
+\end{align*}
+
+\par The length of the current moves (edge traversals) allows the implementation to minimize the move set taking the shortest possible while the sum of manhattan distances allows it to predict which nodes are more likely to reach the original arrangement node first.
+
+\par This implementation is an improvement to the BFS implementation already described. The following is the implementation of BnB for solving the N-Puzzle:
+
+\begin{enumerate}
+\item Label the tree node or starting node as the current node.
+\item Create a queue that would contain nodes to be checked.
+\item Check if the current node is the node being searched for.
+\begin{itemize}
+  \item If it is, skip to step 7.
+  \item If it isn't, continue to step 4.
+\end{itemize}
+\item Get all the possible children nodes or nodes that can be traversed by an edge from the current node.
+\item Add unchecked nodes (using hash set) from the previous step to the end of the queue.
+\item Evaluate each node in queue using cost function and take last least cost node, set this node as the current node and go back to step 3.
+\item Collect the edges that in-order traverses the starting node to the node being searched for.
+\end{enumerate}
+
+\par In the implementation, the last least cost node is used because it means that the nodes with more established moves are at the end of the queue and their sum of manhattan distances is minimized despite there are nodes that are of the same cost at the start of the queue. This only means that the nodes that are at the start of the queue have a greater sum of manhattan distance as part of the cost than the length of established moves while the nodes at the end of the queue tend to minimize the sum of manhattan distance while also having more moves that are concrete or already established.

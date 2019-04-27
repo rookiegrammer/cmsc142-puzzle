@@ -1,0 +1,276 @@
+\section{Parameters of the experiment}
+
+\par Table 1 shows the 30 test cases of the experiment. Each test case will run 10 trials each using the BFS and BnB implementation. Each test case represent a 3 by 3 matrix with numbers from 0-8 indicating their original location in the grid. 0 represents an empty tile space which should originally be at (2,2) [zero-indexed]. The original or ``solved'' arrangement is as follows:
+$$
+1 2 3 4 5 6 7 8 0
+$$
+\par The objective of each algorithm is to rearrange each test case to the original arrangement using the basic moves. Each algorithm will record its move list, node traversals or checks and calculate the time duration the algorithm was running. Each test case will run 10 trials each resulting to 300 runs per algorithm.
+
+\begin{table}[ht]
+  \centering
+  \begin{adjustbox}{width=0.6\textwidth,center}
+
+\begin{tabular}{r|c}
+  \toprule
+  \textbf{Test Case} & \textbf{Shuffled Arrangement} \\
+  \midrule
+1 & 2 0 8 6 3 5 1 4 7 \\ \hline
+2 & 7 5 8 4 6 0 3 2 1 \\ \hline
+3 & 2 6 7 5 3 4 1 0 8 \\ \hline
+4 & 4 1 2 0 8 3 7 6 5 \\ \hline
+5 & 5 0 1 2 4 8 7 3 6 \\ \hline
+6 & 1 7 8 0 4 3 6 5 2 \\ \hline
+7 & 6 2 3 1 4 5 8 0 7 \\ \hline
+8 & 2 8 1 7 5 0 4 3 6 \\ \hline
+9 & 7 1 2 5 8 6 4 0 3 \\ \hline
+10 & 7 5 4 3 1 0 8 6 2 \\ \hline
+11 & 4 1 8 3 2 7 6 0 5 \\ \hline
+12 & 6 8 5 0 7 2 3 4 1 \\ \hline
+13 & 1 0 3 5 8 2 4 7 6 \\ \hline
+14 & 6 1 3 0 7 4 8 2 5 \\ \hline
+15 & 1 0 7 6 4 5 3 2 8 \\ \hline
+16 & 7 2 8 0 5 4 6 3 1 \\ \hline
+17 & 5 2 4 7 8 1 6 0 3 \\ \hline
+18 & 3 1 5 8 7 4 2 0 6 \\ \hline
+19 & 7 2 4 3 5 0 8 6 1 \\ \hline
+20 & 8 7 6 5 4 3 2 1 0 \\ \hline
+21 & 7 4 6 2 3 1 8 5 0 \\ \hline
+22 & 8 6 7 4 0 2 1 5 3 \\ \hline
+23 & 1 5 6 4 0 2 7 8 3 \\ \hline
+24 & 5 3 7 1 0 2 6 8 4 \\ \hline
+25 & 7 5 1 6 8 0 2 3 4 \\ \hline
+26 & 2 3 0 1 6 8 5 4 7 \\ \hline
+27 & 8 2 6 7 4 5 1 0 3 \\ \hline
+28 & 0 8 6 4 5 1 2 3 7 \\ \hline
+29 & 0 2 7 5 8 1 6 4 3 \\ \hline
+30 & 3 8 4 0 7 6 1 5 2
+\end{tabular}
+\end{adjustbox}
+
+\caption{Test Cases}
+\end{table}
+
+\clearpage
+
+\section{Results and Discussion}
+
+\par The test cases were run and recorded for the results. Table 2 shows the resulting move set found by each algorithm for each case.
+
+\par Notice that solutions differ between the algorithms for some test cases. This is because the behavior of choosing last best (least cost) has some effect over the traversal of the algorithm compared to choosing first in queue like in BFS.
+
+\par Another thing to notice is that some solutions found by BnB is not the most optimal (least moves) solution. This reflects how imperfect cost functions could be. Since complete step-by-step graph search like BFS are careful enough to find for the most optimal solution, most BnB cost functions use heuristics as its basis and even heuristics can't find the most optimal solution in every situation, every time. Sometimes deep and careful searching like BFS is good for solutions with high confidence.
+
+\begin{table}[ht]
+  \centering
+  \begin{adjustbox}{width=0.6\textwidth,center}
+
+\begin{tabular}{r|c}
+\toprule
+\textbf{Algo(Test)} & \textbf{Solution Move Set} \\
+\midrule
+BFS(1) & \textbf{DLDRRUULLDDRRULDR} \\
+BnB(1) & \textbf{DLDRRUULLDDRRULDR} \\ \hline
+
+BFS(2) & \textbf{LLURDRDLLUURRDDLUURDDLULURRDD} \\
+BnB(2) & \textbf{DLLUURRDDLUURDDLULURRDDLULDRR} \\ \hline
+
+BFS(3) & \textbf{RUULDRDLULDRURULLDRDR} \\
+BnB(3) & \textbf{RUULDDRULLDRRUULLDDRR} \\ \hline
+
+BFS(4) & \textbf{URRDDLURD} \\
+BnB(4) & \textbf{URRDDLURD} \\ \hline
+
+BFS(5) & \textbf{LDRDRULDLUURRDLLURDLDRR} \\
+BnB(5) & \textbf{DLDRRULDLUURRDLDRULLURRDD} \\ \hline
+
+BFS(6) & \textbf{RULDRRDLLUURRDLURDDLURD} \\
+BnB(6) & \textbf{RULDRRDLLUURDRULDDRULDR} \\ \hline
+
+BFS(7) & \textbf{LUURDDRULLDRRULULDRDR} \\
+BnB(7) & \textbf{LUURDDRULLDRRULULDRDR} \\ \hline
+
+BFS(8) & \textbf{LDRULLURRDDLULURDLDRURD} \\
+BnB(8) & \textbf{DLURDLULURRDDLULURDLDRURD} \\ \hline
+
+BFS(9) & \textbf{URDLLUURRDLDLURDR} \\
+BnB(9) & \textbf{URDLLUURRDLDLURDR} \\ \hline
+
+BFS(10) & \textbf{ULDLURDRDLLURRULDRD} \\
+BnB(10) & \textbf{ULDLURDRDLLURRULDRD} \\ \hline
+
+BFS(11) & \textbf{RULLURDRULDDLURDRULLDRR} \\
+BnB(11) & \textbf{RULLURDRULDDLURDRULLDRR} \\ \hline
+
+BFS(12) & \textbf{RRULDDRULDLURRULLDRDRULURDLDR} \\
+BnB(12) & \textbf{DRUULDDRURDLLURRULLDRRULLDDRR} \\ \hline
+
+BFS(13) & \textbf{LDDRURDLLUURDLDRR} \\
+BnB(13) & \textbf{LDDRURDLLUURDLDRR} \\ \hline
+
+BFS(14) & \textbf{RDLUURDLDRURDLLURRD} \\
+BnB(14) & \textbf{RDLUURDLDRURDLLURRD} \\ \hline
+
+BFS(15) & \textbf{RDDLLURRDLLURURDDLULDRUURDD} \\
+BnB(15) & \textbf{RDDLLURULDRRDLLUURRDDLUURDD} \\ \hline
+
+BFS(16) & \textbf{RRULDDRULDLUURDDLUURRDLDR} \\
+BnB(16) & \textbf{RRULDDRULDLUURDDLUURRDLDR} \\ \hline
+
+BFS(17) & \textbf{LURURDLLURRDDLULURRDD} \\
+BnB(17) & \textbf{LUURRDDLULURRDLLURDRD} \\ \hline
+
+BFS(18) & \textbf{ULDRUULDRRULLDRRD} \\
+BnB(18) & \textbf{ULDRUULDRRULLDRRD} \\ \hline
+
+BFS(19) & \textbf{DLUURDLLURRDLDLUURRDD} \\
+BnB(19) & \textbf{DLUURDLLURRDLDLUURRDD} \\ \hline
+
+BFS(20) & \textbf{LLUURDLDRURDLLUURDRULDDLUURDDR} \\
+BnB(20) & \textbf{ULLDRUURDDLUULDDRUURDDLUULDRRD} \\ \hline
+
+BFS(21) & \textbf{LULURDRULDDRULDLUURRDD} \\
+BnB(21) & \textbf{LULURDRULDDRULDLUURRDD} \\ \hline
+
+BFS(22) & \textbf{LURRDLLDRUULDRRDLLURURDLDR} \\
+BnB(22) & \textbf{ULDDRUURDDLUULDRURDDLLURDR} \\ \hline
+
+BFS(23) & \textbf{URDDLUURDLDR} \\
+BnB(23) & \textbf{URDDLUURDLDR} \\ \hline
+
+BFS(24) & \textbf{URDLULDRDRULDLURRDLUURDD} \\
+BnB(24) & \textbf{RULDDRULLDRRUULDLURRDLLDRR} \\ \hline
+
+BFS(25) & \textbf{LDRULLURRDLLDRULURDLDRR} \\
+BnB(25) & \textbf{DLURDLULURRDLLDRULURDLDRR} \\ \hline
+
+BFS(26) & \textbf{LLDDRRULLDRR} \\
+BnB(26) & \textbf{LLDDRRULLDRR} \\ \hline
+
+BFS(27) & \textbf{ULURRDLLDRURDLUURDLULDDRR} \\
+BnB(27) & \textbf{ULURDLDRUURDDLUURDLULDDRR} \\ \hline
+
+BFS(28) & \textbf{RDRULDDLUURDDRUULDLDRURD} \\
+BnB(28) & \textbf{DRURDLDRULURDLLDRULURDDR} \\ \hline
+
+BFS(29) & \textbf{DDRURULDRDLULURRDLLDRR} \\
+BnB(29) & \textbf{DDRURULDRDLULURRDLLDRR} \\ \hline
+
+BFS(30) & \textbf{DRRUULLDRDRUULDDRULDLURDR} \\
+BnB(30) & \textbf{DRRUULLDRDRUULDDRULDLURDR} \\
+
+\end{tabular}
+\end{adjustbox}
+
+\caption{Solution Move Sets of 30 different test cases on 2 graph search algorithms}
+\end{table}
+
+\par Table 3 shows all the runs of each trial of each test case. As discussed earlier, sometimes BFS can also be good. The only downside to BFS is how long it would need to find that solution. It can be seen in the table that BnB has an upper hand over BFS since there is a large difference between node checks. This shows how fuzzy searching like BnB can be significantly faster than the traditional BFS.
+
+\par It can be said that this speed difference between the two can be more evident in larger search space like the 15-puzzle problem. Since larger puzzles have more tiles, BFS would struggle in slowly searching every possible instance of arrangement unlike BnB that choose what looks like the most optimal at the time.
+
+\begin{table}[ht]
+  \centering
+  \begin{adjustbox}{width=1.5\textwidth,center}
+
+\begin{tabular}{r|llllllllll}
+\toprule
+\textbf{Algo(Test)} & \multicolumn{10}{c}{\textbf{Trial: Time [ss.sss] (Nodes Checked)}} \\
+ & T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8 & T9 & T10 \\ \midrule
+
+\textbf{BFS(1)} & 0.080 (17512) & 0.054 (17512) & 0.040 (17512) & 0.042 (17512) & 0.047 (17512) & 0.031 (17512) & 0.034 (17512) & 0.035 (17512) & 0.061 (17512) & 0.046 (17512) \\
+\textbf{BnB(1)} & 0.001 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) & 0.000 (42) \\ \hline
+
+\textbf{BFS(2)} & 0.633 (180689) & 0.651 (180689) & 0.525 (180689) & 0.695 (180689) & 0.547 (180689) & 0.527 (180689) & 0.538 (180689) & 0.528 (180689) & 0.515 (180689) & 0.520 (180689) \\
+\textbf{BnB(2)} & 0.034 (4241) & 0.025 (4241) & 0.025 (4241) & 0.024 (4241) & 0.024 (4241) & 0.025 (4241) & 0.025 (4241) & 0.024 (4241) & 0.025 (4241) & 0.025 (4241) \\ \hline
+
+\textbf{BFS(3)} & 0.143 (70122) & 0.141 (70122) & 0.144 (70122) & 0.148 (70122) & 0.143 (70122) & 0.142 (70122) & 0.141 (70122) & 0.141 (70122) & 0.141 (70122) & 0.142 (70122) \\
+\textbf{BnB(3)} & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) & 0.000 (138) \\ \hline
+
+\textbf{BFS(4)} & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) & 0.000 (408) \\
+\textbf{BnB(4)} & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) & 0.000 (10) \\ \hline
+
+\textbf{BFS(5)} & 0.244 (104976) & 0.235 (104976) & 0.252 (104976) & 0.238 (104976) & 0.240 (104976) & 0.241 (104976) & 0.237 (104976) & 0.245 (104976) & 0.236 (104976) & 0.251 (104976) \\
+\textbf{BnB(5)} & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) & 0.009 (2241) \\ \hline
+
+\textbf{BFS(6)} & 0.238 (106086) & 0.238 (106086) & 0.241 (106086) & 0.244 (106086) & 0.251 (106086) & 0.238 (106086) & 0.259 (106086) & 0.238 (106086) & 0.239 (106086) & 0.242 (106086) \\
+\textbf{BnB(6)} & 0.002 (941) & 0.003 (941) & 0.003 (941) & 0.002 (941) & 0.003 (941) & 0.003 (941) & 0.003 (941) & 0.003 (941) & 0.003 (941) & 0.003 (941) \\ \hline
+
+\textbf{BFS(7)} & 0.130 (64334) & 0.131 (64334) & 0.145 (64334) & 0.132 (64334) & 0.131 (64334) & 0.130 (64334) & 0.146 (64334) & 0.131 (64334) & 0.130 (64334) & 0.131 (64334) \\
+\textbf{BnB(7)} & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) & 0.003 (1063) \\ \hline
+
+\textbf{BFS(8)} & 0.271 (112731) & 0.259 (112731) & 0.281 (112731) & 0.271 (112731) & 0.279 (112731) & 0.257 (112731) & 0.257 (112731) & 0.260 (112731) & 0.256 (112731) & 0.263 (112731) \\
+\textbf{BnB(8)} & 0.009 (2203) & 0.009 (2203) & 0.009 (2203) & 0.009 (2203) & 0.009 (2203) & 0.008 (2203) & 0.009 (2203) & 0.008 (2203) & 0.008 (2203) & 0.009 (2203) \\ \hline
+
+\textbf{BFS(9)} & 0.033 (18612) & 0.033 (18612) & 0.033 (18612) & 0.033 (18612) & 0.033 (18612) & 0.033 (18612) & 0.034 (18612) & 0.033 (18612) & 0.033 (18612) & 0.033 (18612) \\
+\textbf{BnB(9)} & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) & 0.000 (154) \\ \hline
+
+\textbf{BFS(10)} & 0.073 (37916) & 0.072 (37916) & 0.073 (37916) & 0.072 (37916) & 0.071 (37916) & 0.071 (37916) & 0.071 (37916) & 0.078 (37916) & 0.072 (37916) & 0.071 (37916) \\
+\textbf{BnB(10)} & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) & 0.000 (36) \\ \hline
+
+\textbf{BFS(11)} & 0.255 (109137) & 0.257 (109137) & 0.245 (109137) & 0.264 (109137) & 0.247 (109137) & 0.254 (109137) & 0.253 (109137) & 0.249 (109137) & 0.286 (109137) & 0.248 (109137) \\
+\textbf{BnB(11)} & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) & 0.001 (570) \\ \hline
+
+\textbf{BFS(12)} & 0.513 (180738) & 0.528 (180738) & 0.540 (180738) & 0.553 (180738) & 0.565 (180738) & 0.530 (180738) & 0.518 (180738) & 0.521 (180738) & 0.536 (180738) & 0.531 (180738) \\
+\textbf{BnB(12)} & 0.018 (3850) & 0.018 (3850) & 0.018 (3850) & 0.019 (3850) & 0.018 (3850) & 0.018 (3850) & 0.019 (3850) & 0.018 (3850) & 0.018 (3850) & 0.019 (3850) \\ \hline
+
+\textbf{BFS(13)} & 0.026 (14534) & 0.026 (14534) & 0.026 (14534) & 0.026 (14534) & 0.025 (14534) & 0.025 (14534) & 0.025 (14534) & 0.026 (14534) & 0.026 (14534) & 0.026 (14534) \\
+\textbf{BnB(13)} & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) & 0.000 (310) \\ \hline
+
+\textbf{BFS(14)} & 0.065 (34994) & 0.066 (34994) & 0.066 (34994) & 0.075 (34994) & 0.066 (34994) & 0.066 (34994) & 0.066 (34994) & 0.066 (34994) & 0.066 (34994) & 0.065 (34994) \\
+\textbf{BnB(14)} & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) & 0.000 (177) \\ \hline
+
+\textbf{BFS(15)} & 0.492 (176623) & 0.486 (176623) & 0.491 (176623) & 0.492 (176623) & 0.492 (176623) & 0.489 (176623) & 0.484 (176623) & 0.486 (176623) & 0.503 (176623) & 0.493 (176623) \\
+\textbf{BnB(15)} & 0.019 (3924) & 0.019 (3924) & 0.018 (3924) & 0.019 (3924) & 0.019 (3924) & 0.018 (3924) & 0.018 (3924) & 0.018 (3924) & 0.019 (3924) & 0.018 (3924) \\ \hline
+
+\textbf{BFS(16)} & 0.365 (145325) & 0.380 (145325) & 0.362 (145325) & 0.368 (145325) & 0.362 (145325) & 0.364 (145325) & 0.383 (145325) & 0.362 (145325) & 0.370 (145325) & 0.362 (145325) \\
+\textbf{BnB(16)} & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) & 0.001 (504) \\ \hline
+
+\textbf{BFS(17)} & 0.123 (60262) & 0.120 (60262) & 0.120 (60262) & 0.120 (60262) & 0.129 (60262) & 0.124 (60262) & 0.120 (60262) & 0.120 (60262) & 0.136 (60262) & 0.122 (60262) \\
+\textbf{BnB(17)} & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) & 0.000 (231) \\ \hline
+
+\textbf{BFS(18)} & 0.032 (17742) & 0.032 (17742) & 0.031 (17742) & 0.031 (17742) & 0.031 (17742) & 0.031 (17742) & 0.031 (17742) & 0.031 (17742) & 0.031 (17742) & 0.031 (17742) \\
+\textbf{BnB(18)} & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) & 0.000 (63) \\ \hline
+
+\textbf{BFS(19)} & 0.169 (78435) & 0.162 (78435) & 0.160 (78435) & 0.177 (78435) & 0.159 (78435) & 0.160 (78435) & 0.161 (78435) & 0.165 (78435) & 0.160 (78435) & 0.161 (78435) \\
+\textbf{BnB(19)} & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) & 0.000 (210) \\ \hline
+
+\textbf{BFS(20)} & 0.525 (181385) & 0.524 (181385) & 0.519 (181385) & 0.519 (181385) & 0.525 (181385) & 0.528 (181385) & 0.530 (181385) & 0.525 (181385) & 0.518 (181385) & 0.516 (181385) \\
+\textbf{BnB(20)} & 0.055 (7031) & 0.055 (7031) & 0.055 (7031) & 0.055 (7031) & 0.055 (7031) & 0.056 (7031) & 0.055 (7031) & 0.056 (7031) & 0.055 (7031) & 0.054 (7031) \\ \hline
+
+\textbf{BFS(21)} & 0.164 (79344) & 0.181 (79344) & 0.165 (79344) & 0.164 (79344) & 0.166 (79344) & 0.165 (79344) & 0.165 (79344) & 0.164 (79344) & 0.176 (79344) & 0.164 (79344) \\
+\textbf{BnB(21)} & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) & 0.001 (594) \\ \hline
+
+\textbf{BFS(22)} & 0.433 (162747) & 0.434 (162747) & 0.434 (162747) & 0.426 (162747) & 0.442 (162747) & 0.429 (162747) & 0.429 (162747) & 0.432 (162747) & 0.427 (162747) & 0.429 (162747) \\
+\textbf{BnB(22)} & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) & 0.009 (2424) \\ \hline
+
+\textbf{BFS(23)} & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) & 0.003 (2155) \\
+\textbf{BnB(23)} & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) & 0.000 (55) \\ \hline
+
+\textbf{BFS(24)} & 0.359 (144707) & 0.360 (144707) & 0.360 (144707) & 0.368 (144707) & 0.368 (144707) & 0.368 (144707) & 0.356 (144707) & 0.355 (144707) & 0.368 (144707) & 0.357 (144707) \\
+\textbf{BnB(24)} & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) & 0.008 (2182) \\ \hline
+
+\textbf{BFS(25)} & 0.269 (112664) & 0.258 (112664) & 0.267 (112664) & 0.258 (112664) & 0.275 (112664) & 0.256 (112664) & 0.256 (112664) & 0.256 (112664) & 0.255 (112664) & 0.263 (112664) \\
+\textbf{BnB(25)} & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.003 (1215) & 0.004 (1215) \\ \hline
+
+\textbf{BFS(26)} & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) & 0.002 (1193) \\
+\textbf{BnB(26)} & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) & 0.000 (13) \\ \hline
+
+\textbf{BFS(27)} & 0.432 (156154) & 0.399 (156154) & 0.399 (156154) & 0.422 (156154) & 0.399 (156154) & 0.398 (156154) & 0.424 (156154) & 0.398 (156154) & 0.401 (156154) & 0.420 (156154) \\
+\textbf{BnB(27)} & 0.005 (1703) & 0.005 (1703) & 0.005 (1703) & 0.006 (1703) & 0.005 (1703) & 0.005 (1703) & 0.005 (1703) & 0.005 (1703) & 0.005 (1703) & 0.006 (1703) \\ \hline
+
+\textbf{BFS(28)} & 0.302 (127646) & 0.322 (127646) & 0.301 (127646) & 0.320 (127646) & 0.302 (127646) & 0.313 (127646) & 0.312 (127646) & 0.318 (127646) & 0.302 (127646) & 0.307 (127646) \\
+\textbf{BnB(28)} & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) & 0.001 (465) \\ \hline
+
+\textbf{BFS(29)} & 0.203 (94779) & 0.200 (94779) & 0.204 (94779) & 0.201 (94779) & 0.219 (94779) & 0.201 (94779) & 0.202 (94779) & 0.213 (94779) & 0.201 (94779) & 0.203 (94779) \\
+\textbf{BnB(29)} & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) & 0.000 (184) \\ \hline
+
+\textbf{BFS(30)} & 0.415 (159480) & 0.415 (159480) & 0.412 (159480) & 0.413 (159480) & 0.415 (159480) & 0.416 (159480) & 0.412 (159480) & 0.407 (159480) & 0.431 (159480) & 0.410 (159480) \\
+\textbf{BnB(30)} & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) & 0.008 (2263) \\
+
+\end{tabular}
+\end{adjustbox}
+
+\caption{Results of 30 different test cases on 2 graph search algorithms with 10 trials each}
+\end{table}
+
+\par From the experiment, it is evident that while Breadth First Search employs a deep and careful search for solutions of the N-Puzzle problem, Branch and Bound search is still significantly faster and would overall conserve compute power as an algorithm.
