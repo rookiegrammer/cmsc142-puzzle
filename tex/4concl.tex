@@ -1,1 +1,11 @@
 \section{Conclusion}
+
+\par In this research, two algorithms are implemented with solving the N-Puzzle problem in mind. Using different test cases, these algorithms are experimented and compared for results. The experiment tests the 8-puzzle version of the problem, uses 30 different test cases and run 10 trials for each test case.
+
+\par One of these algorithms is the Breadth First Search algorithm (BFS). BFS is a simple graph search algorithm that finds nodes one node depth at a time. It involves carefully searching for solutions or nodes branch by branch. The downside to the way BFS works is that it is very slow and checks too many nodes when traversing.
+
+\par Another of these algorithms is the Branch and Bound Graph Search algorithm. The cost function employed in the implementation uses edge traversal (move list) length and the sum of Manhattan distances (Taxicab geometry) of each tile from its original position. The advantage of using Branch and Bound is an increase in search speed (similar to fuzzy matching) and a decrease of node checks. It performs way faster than the BFS implementation. The disadvantage of this implementation to BFS is that it sometimes does not generate the most optimal solution for the N-Puzzle problem.
+
+\par Further improvements to the research would entail having to improve the cost function of the BnB implementation, trying to do two-way BFS where traversal which would include solving from original to shuffled arrangement of tiles or increasing the tiles to solve 15 puzzle or 24 puzzle problems.
+
+\par In conclusion, it can be said that the two types of algorithm differ to one another by their use case or how they are meant to be used. The BFS, despite being slower than BnB, is more optimal and accurate than BnB. This implementation should be used for critical and accurate work where correctness is very important. On the other hand, the BnB, despite not generating the most optimal solution, works so much faster than BFS. This implementation should be used for work that do not require accuracy and correctness but to create a solution in the least amount of time.
